@@ -1,14 +1,46 @@
-export const getBodyMessage = () => {
-    const bodyHtml = `<html>
-    <head></head>
-    <body>
-      <h1>Amazon Pinpoint Test (SDK for JavaScript in Node.js)</h1>
-      <p>This email was sent with
-        <a href='https://aws.amazon.com/pinpoint/'>the Amazon Pinpoint Email API</a> using the
-        <a href='https://aws.amazon.com/sdk-for-node-js/'>
-          AWS SDK for JavaScript in Node.js</a>.</p>
-    </body>
-    </html>`;
-    return bodyHtml;
+import AWS from 'aws-sdk';
+
+export const getEmailTemplateResponse = () => {
+  AWS.config.update({
+    region: 'us-east-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  });
+  const pinpoint = new AWS.Pinpoint();
+  const params = {
+    TemplateName: 'weppa_email_template',
+  };
+
+  return new Promise((resolve, reject) => {
+    pinpoint.getEmailTemplate(params, (err, data) => {
+      if (err) {
+        resolve(null)
+      } else {
+        resolve(data.EmailTemplateResponse)
+      }
+    })
+  });
+}
+
+export const getSMSTemplateResponse = () => {
+  AWS.config.update({
+    region: 'us-east-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  });
+  const pinpoint = new AWS.Pinpoint();
+  const params = {
+    TemplateName: 'weppa_sms_template',
+  };
+
+  return new Promise((resolve, reject) => {
+    pinpoint.getSmsTemplate(params, (err, data) => {
+      if (err) {
+        resolve(null)
+      } else {
+        resolve(data.SmsTemplateResponse)
+      }
+    })
+  });
 }
 
