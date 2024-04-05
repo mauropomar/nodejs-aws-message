@@ -50,7 +50,7 @@ export const sendEmail = async (req, res) => {
         if (recipientResult.StatusCode !== 200) {
             throw new Error(recipientResult.StatusMessage);
         } else {
-            res.json({ message: 'Correo enviado satisfactoriamente', success: false });
+            res.json({ message: 'Correo enviado satisfactoriamente', success: true });
         }
     } catch (err) {
         res.json({ message: err.message, success: false });
@@ -88,7 +88,7 @@ export const sendMessage = async (req, res) => {
 
     try {
         const data = await pinClient.send(new SendMessagesCommand(params));
-        res.json({ message: 'Mensaje enviado satisfactoriamente', success: false, data: data });
+        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data: data });
     } catch (err) {
         res.json({ message: err.message, success: false });
     }
