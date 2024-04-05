@@ -19,8 +19,8 @@ app.use('/api/message', messageRoutes);
 
 const ssmClient = new AWS.SSM({
     region: 'us-east-1',
-    accessKeyId: process.env.PASSWORD_ACCESS,
-    secretAccessId: process.env.PASSWORD_ACCESS_SECRET
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessId: process.env.AWS_SECRET_ACCESS_KEY
 });
 
 // iniciar server
