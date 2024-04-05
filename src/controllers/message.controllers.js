@@ -1,13 +1,14 @@
 import { SendMessagesCommand } from "@aws-sdk/client-pinpoint";
-import { getEmailTemplateResponse, getSMSTemplateResponse } from "../services/message.services.js";
+import { getEmailTemplateResponse, getSMSTemplateResponse, extractCustomAttributes,  getTemplateWithSubtitutions} from "../services/message.services.js";
 import { pinClient } from "../libs/pinClient.js";
 
 export const sendMessage = async (req, res) => {
     const template = await getSMSTemplateResponse();
-    console.log(template);
+    const atributesTemplate = extractCustomAttributes(template.Body);
+    const attributesBody = eval(req.body.attributes);
+    const message =  getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.Body);
     const originationNumber = req.body.originationNumber;
-    const destinationNumber = req.body.destinationNumber;
-    const message = req.body.message;
+    const destinationNumber = req.body.destinationNumber; 
     const projectId = process.env.PINPOINT_PROJECT_ID;
     const messageType = "TRANSACTIONAL";
     const registeredKeyword = "myKeyword";
@@ -34,7 +35,7 @@ export const sendMessage = async (req, res) => {
 
     try {
         const data = await pinClient.send(new SendMessagesCommand(params));
-        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data: data });
+        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true});
     } catch (err) {
         res.json({ message: err.message, success: false });
     }
@@ -43,10 +44,12 @@ export const sendMessage = async (req, res) => {
 export const sendEmail = async (req, res) => {
     try {
         const template = await getEmailTemplateResponse();
+        const atributesTemplate = extractCustomAttributes(template.HtmlPart);
+        const attributesBody = eval(req.body.attributes);
+        const bodyHtml =  getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.HtmlPart);
         const fromAddress = req.body.fromAddress;
         const toAddress = req.body.toAddress;
         const subject = template.Subject;
-        const bodyHtml = template.HtmlPart;
         const bodyText = template.Subject;
         const projectId = process.env.PINPOINT_PROJECT_ID;
         const charset = "UTF-8";
