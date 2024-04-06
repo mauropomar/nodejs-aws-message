@@ -25,7 +25,7 @@ http://127.0.0.1:3002/api/message/sendMessage
 ``
     "originationNumber":"xxxxxxxx",
     "destinationNumber":"xxxxxxxxx",
-    "attributes":"[{'name':'code', value: 'ABSD123'}, {'name':'date_time', value: '2024-12-18'}]"  
+    "attributes":"[{'name':'xxxx', value: 'xxxxx'}, {'name':'xxx', value: 'xxxx-xx-xx'}]"  
 ``
 
 ### API addresses
@@ -36,5 +36,5 @@ http://127.0.0.1:3002/api/message/sendEmail
 ``
    "fromAddress":"xxxxxxx@gmail.com",
     "toAddress":"xxxxx@gmail.com",
-    "attributes":"[{'name':'name', value: 'xxxx'}, {'name':'email', value: 'xxxxx@gmail.com'}, {'name':'url_action', value: 'http://xxxx.xxx.com'},{'name':'body', value: 'micuerpo'}]"
+    "attributes":"[{'name':'xxxx', value: 'xxxx'}, {'name':'xxxx', value: 'xxxxx@gmail.com'}, {'name':'xxxx', value: 'http://xxxx.xxx.com'}]"
 ``
