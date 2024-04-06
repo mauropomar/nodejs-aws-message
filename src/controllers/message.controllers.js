@@ -1,5 +1,6 @@
 import { SendMessagesCommand } from "@aws-sdk/client-pinpoint";
-import { getEmailTemplateResponse, getSMSTemplateResponse, extractCustomAttributes,  getTemplateWithSubtitutions} from "../services/message.services.js";
+import { getEmailTemplateResponse, getSMSTemplateResponse} from "../services/message.services.js";
+import {extractCustomAttributes,  getTemplateWithSubtitutions} from "../classes/util.js";
 import { pinClient } from "../libs/pinClient.js";
 
 export const sendMessage = async (req, res) => {
@@ -35,7 +36,7 @@ export const sendMessage = async (req, res) => {
 
     try {
         const data = await pinClient.send(new SendMessagesCommand(params));
-        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true});
+        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data});
     } catch (err) {
         res.json({ message: err.message, success: false });
     }
@@ -90,7 +91,7 @@ export const sendEmail = async (req, res) => {
         if (recipientResult.StatusCode !== 200) {
             throw new Error(recipientResult.StatusMessage);
         } else {
-            res.json({ message: 'Correo enviado satisfactoriamente', success: true });
+            res.json({ message: 'Correo enviado satisfactoriamente', success: true, data });
         }
     } catch (err) {
         res.json({ message: err.message, success: false });
