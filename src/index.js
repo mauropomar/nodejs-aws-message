@@ -1,5 +1,5 @@
 import express from "express";
-import AWS from 'aws-sdk';
+import validateToken from "./validations/validate-token.js";
 
 import bodyparser from "body-parser";
 import 'dotenv/config';
@@ -17,8 +17,8 @@ import { tokenRoutes } from './routes/index.js';
 
 // route middlewares
 
-app.use('/api/v1/email', emailRoutes);
-app.use('/api/v1/sms', smsRoutes);
+app.use('/api/v1/email', validateToken, emailRoutes);
+app.use('/api/v1/sms', validateToken, smsRoutes);
 app.use('/api/v1/token', tokenRoutes);
 
 // iniciar server
