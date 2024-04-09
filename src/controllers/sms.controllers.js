@@ -1,15 +1,15 @@
 import { SendMessagesCommand } from "@aws-sdk/client-pinpoint";
-import { getSMSTemplateResponse} from "../services/sms.services.js";
-import {extractCustomAttributes,  getTemplateWithSubtitutions, formatSubstitutions} from "../classes/util.js";
+import { getSMSTemplateResponse } from "../services/sms.services.js";
+import { extractCustomAttributes, getTemplateWithSubtitutions, formatSubstitutions } from "../classes/util.js";
 import { pinClient } from "../libs/pinClient.js";
 
 export const sendMessage = async (req, res) => {
     const template = await getSMSTemplateResponse();
     const atributesTemplate = extractCustomAttributes(template.Body);
     const attributesBody = eval(req.body.attributes);
-    const message =  getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.Body);
+    const message = getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.Body);
     const originationNumber = req.body.originationNumber;
-    const destinationNumber = req.body.destinationNumber; 
+    const destinationNumber = req.body.destinationNumber;
     const projectId = process.env.PINPOINT_PROJECT_ID;
     const messageType = "TRANSACTIONAL";
     const registeredKeyword = "myKeyword";
@@ -36,7 +36,7 @@ export const sendMessage = async (req, res) => {
 
     try {
         const data = await pinClient.send(new SendMessagesCommand(params));
-        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data});
+        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data });
     } catch (err) {
         res.json({ message: err.message, success: false });
     }
@@ -51,26 +51,26 @@ export const sendSmsRest = async (req, res) => {
 
     // Construir los parámetros para enviar el SMS
     const params = {
-      ApplicationId: projectId,
-      MessageRequest: {
-        'Addresses': {
-          [phoneNumber]: {
-            'ChannelType': 'SMS'
-          }
-        },
-        'MessageConfiguration': {
-          'SMSMessage': {
-            'MessageType': 'TRANSACTIONAL',
-            'Substitutions': attributes ? formatSubstitutions(attributes) : undefined
-          }
-        },
-        'TemplateConfiguration': {
-          'SMSTemplate': {
-              'Name': smsTemplateId,
-              'Version': 'latest'
-          }
-      }
-      }
+        ApplicationId: projectId,
+        MessageRequest: {
+            'Addresses': {
+                [phoneNumber]: {
+                    'ChannelType': 'SMS'
+                }
+            },
+            'MessageConfiguration': {
+                'SMSMessage': {
+                    'MessageType': 'TRANSACTIONAL',
+                    'Substitutions': attributes ? formatSubstitutions(attributes) : undefined
+                }
+            },
+            'TemplateConfiguration': {
+                'SMSTemplate': {
+                    'Name': smsTemplateId,
+                    'Version': 'latest'
+                }
+            }
+        }
     };
 
     try {
@@ -87,8 +87,10 @@ export const sendSmsRest = async (req, res) => {
         const responseBody = { message: error.message || "Error desconocido al enviar el SMS.", statusCode: error.statusCode || 400 };
         return {
             statusCode: error.statusCode || 400,
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(responseBody)
         };
     }
 }
+
+

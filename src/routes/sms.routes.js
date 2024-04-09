@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    sendMessage
+    sendMessage,
 } from "../controllers/sms.controllers.js";
 
 // rutes
