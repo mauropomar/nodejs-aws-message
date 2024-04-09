@@ -3,11 +3,11 @@ import { formatSubstitutions } from "../classes/util.js";
 
 export const sendEmail = async (req, res) => {
     const pinpoint = new AWS.Pinpoint();
-    const { fromAddress, toAddress, emailTemplateId, attributes } = req.body;
+    const { projectId, fromAddress, toAddress, emailTemplateId, attributes } = req.body;
 
     // Construir los parámetros para enviar el correo electrónico
     const params = {
-        ApplicationId: process.env.PINPOINT_PROJECT_ID,
+        ApplicationId: projectId,
         MessageRequest: {
             'Addresses': {
                 [toAddress]: {

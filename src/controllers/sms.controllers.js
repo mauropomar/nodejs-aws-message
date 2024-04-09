@@ -4,11 +4,11 @@ import { formatSubstitutions } from "../classes/util.js";
 export const sendMessage = async (req, res) => {
     const pinpoint = new AWS.Pinpoint();
     // Parámetros de entrada
-    const { phoneNumber, smsTemplateId, attributes } = req.body;
+    const { projectId, phoneNumber, smsTemplateId, attributes } = req.body;
 
     // Construir los parámetros para enviar el SMS
     const params = {
-        ApplicationId: process.env.PINPOINT_PROJECT_ID,
+        ApplicationId: projectId,
         MessageRequest: {
             'Addresses': {
                 [phoneNumber]: {
