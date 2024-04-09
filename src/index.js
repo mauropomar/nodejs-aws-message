@@ -11,11 +11,13 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 // import routes
-import { messageRoutes } from './routes/index.js';
+import { emailRoutes } from './routes/index.js';
+import { smsRoutes } from './routes/index.js';
 
 // route middlewares
 
-app.use('/api/message', messageRoutes);
+app.use('/api/v1/email', emailRoutes);
+app.use('/api/v1/sms', smsRoutes);
 
 const ssmClient = new AWS.SSM({
     region: 'us-east-1',

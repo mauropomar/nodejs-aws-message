@@ -18,3 +18,16 @@ export const extractCustomAttributes = (templateBody) => {
     })
     return body;
   }
+
+  export const formatSubstitutions = (attributes) => {
+    // Convertir los atributos en un formato adecuado para Substitutions
+    const substitutions = {};
+    for (const key in attributes) {
+        if (Array.isArray(attributes[key])) {
+            substitutions[key] = attributes[key]; 
+        } else {
+            substitutions[key] = [attributes[key].toString()];
+        }
+    }
+    return substitutions;
+};

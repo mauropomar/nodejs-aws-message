@@ -1,53 +1,14 @@
 import { SendMessagesCommand } from "@aws-sdk/client-pinpoint";
-import { getEmailTemplateResponse, getSMSTemplateResponse} from "../services/message.services.js";
-import {extractCustomAttributes,  getTemplateWithSubtitutions} from "../classes/util.js";
+import { getEmailTemplateResponse } from "../services/email.services.js";
+import { extractCustomAttributes, getTemplateWithSubtitutions, formatSubstitutions } from "../classes/util.js";
 import { pinClient } from "../libs/pinClient.js";
-
-export const sendMessage = async (req, res) => {
-    const template = await getSMSTemplateResponse();
-    const atributesTemplate = extractCustomAttributes(template.Body);
-    const attributesBody = eval(req.body.attributes);
-    const message =  getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.Body);
-    const originationNumber = req.body.originationNumber;
-    const destinationNumber = req.body.destinationNumber; 
-    const projectId = process.env.PINPOINT_PROJECT_ID;
-    const messageType = "TRANSACTIONAL";
-    const registeredKeyword = "myKeyword";
-    const senderId = "MySenderID";
-    const params = {
-        ApplicationId: projectId,
-        MessageRequest: {
-            Addresses: {
-                [destinationNumber]: {
-                    ChannelType: "SMS",
-                },
-            },
-            MessageConfiguration: {
-                SMSMessage: {
-                    Body: message,
-                    Keyword: registeredKeyword,
-                    MessageType: messageType,
-                    OriginationNumber: originationNumber,
-                    SenderId: senderId,
-                },
-            },
-        },
-    };
-
-    try {
-        const data = await pinClient.send(new SendMessagesCommand(params));
-        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data});
-    } catch (err) {
-        res.json({ message: err.message, success: false });
-    }
-}
 
 export const sendEmail = async (req, res) => {
     try {
         const template = await getEmailTemplateResponse();
         const atributesTemplate = extractCustomAttributes(template.HtmlPart);
         const attributesBody = eval(req.body.attributes);
-        const bodyHtml =  getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.HtmlPart);
+        const bodyHtml = getTemplateWithSubtitutions(attributesBody, atributesTemplate, template.HtmlPart);
         const fromAddress = req.body.fromAddress;
         const toAddress = req.body.toAddress;
         const subject = template.Subject;
@@ -96,5 +57,56 @@ export const sendEmail = async (req, res) => {
     } catch (err) {
         res.json({ message: err.message, success: false });
         console.log(err.message);
+    }
+}
+
+export const sendEmailRest = async (req, res) => {
+    const pinpoint = new AWS.Pinpoint();
+
+    // Parámetros de entrada
+    const body = JSON.parse(req.body);
+    const { projectId, fromAddress, toAddress, emailTemplateId, attributes } = body;
+
+    // Construir los parámetros para enviar el correo electrónico
+    const params = {
+        ApplicationId: projectId,
+        MessageRequest: {
+            'Addresses': {
+                [toAddress]: {
+                    'ChannelType': 'EMAIL'
+                }
+            },
+            'MessageConfiguration': {
+                'EmailMessage': {
+                    'FromAddress': fromAddress,
+                    'Substitutions': attributes ? formatSubstitutions(attributes) : undefined
+                }
+            },
+            'TemplateConfiguration': {
+                'EmailTemplate': {
+                    'Name': emailTemplateId,
+                    'Version': 'latest'
+                }
+            }
+        }
+    };
+
+    try {
+        const result = await pinpoint.sendMessages(params).promise();
+        console.log('Correo electrónico enviado con éxito: ', result);
+        const responseBody = { message: "Correo electrónico enviado con éxito", status: result };
+        return {
+            statusCode: 200,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(responseBody)
+        };
+    } catch (error) {
+        console.error('Error al enviar el correo electrónico: ', error);
+        const responseBody = { message: error.message || "Error desconocido al enviar el correo electrónico.", statusCode: error.statusCode || 400 };
+        return {
+            statusCode: error.statusCode || 400,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(responseBody)
+        };
     }
 }
