@@ -1,4 +1,5 @@
 import express from "express";
+import AWS from 'aws-sdk';
 import validateToken from "./validations/validate-token.js";
 
 import bodyparser from "body-parser";
@@ -13,13 +14,21 @@ app.use(bodyparser.json());
 // import routes
 import { emailRoutes } from './routes/index.js';
 import { smsRoutes } from './routes/index.js';
+import { messageRoutes } from './routes/index.js';
 import { tokenRoutes } from './routes/index.js';
 
 // route middlewares
 
 app.use('/api/v1/email', validateToken, emailRoutes);
 app.use('/api/v1/sms', validateToken, smsRoutes);
+app.use('/api/v1/message', messageRoutes);
 app.use('/api/v1/token', tokenRoutes);
+
+AWS.config.update({
+    region: 'us-east-1',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessId: process.env.AWS_SECRET_ACCESS_KEY
+});
 
 // iniciar server
 const PORT = process.env.PORT || 3002;

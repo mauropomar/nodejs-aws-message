@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
 
 const client = jwksClient({
-    jwksUri: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wxQg0L0CP/.well-known/jwks.json' // URL de JWKS de Amazon Cognito
+    jwksUri: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_3DPVOfMFF/.well-known/jwks.json' // URL de JWKS de Amazon Cognito
 });
 
 const verifyToken = (token, callback) => {
@@ -10,7 +10,7 @@ const verifyToken = (token, callback) => {
     if (!decodedToken || !decodedToken.header || !decodedToken.header.kid) {
         return callback(new Error('Invalid token'));
     }
-    console.log('llego')
+
     client.getSigningKey(decodedToken.header.kid, (err, key) => {
         if (err) {
             return callback(err);

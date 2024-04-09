@@ -1,13 +1,11 @@
 import { Router } from "express";
 import {
-    sendEmail,
-    sendEmailRest
+    sendEmail
 } from "../controllers/email.controllers.js";
 
 // rutes
 const router = Router();
 
-router.post("/sendEmail", sendEmail);
-router.post("/", sendEmailRest);
+router.post("/", sendEmail);
 
 export default router;

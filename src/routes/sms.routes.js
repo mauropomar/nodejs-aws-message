@@ -6,6 +6,6 @@ import {
 // rutes
 const router = Router();
 
-router.post("/sendMessage", sendMessage);
+router.post("/", sendMessage);
 
 export default router;
