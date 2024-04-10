@@ -1,4 +1,4 @@
 import { PinpointClient } from "@aws-sdk/client-pinpoint";
-const REGION = "us-east-1";
+const REGION = process.env.REGION;
 const pinClient = new PinpointClient({ region: REGION });
 export { pinClient };
