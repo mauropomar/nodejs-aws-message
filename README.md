@@ -17,9 +17,9 @@ npm run dev
 npm run build
 ```
 
-### API addresses SMS Lamba(POST)
+### API addresses SMS SDK(POST)
 ```sh
-http://127.0.0.1:3002/api/v1/message/sendMessage
+http://127.0.0.1:3002/api/v1/sms/sdk
 ```
 ``exmaple parameters
 ``
@@ -47,9 +47,9 @@ http://127.0.0.1:3002/api/v1/sms
 	}
 ``
 
-### API addresses Email Lamba(POST)
+### API addresses Email SDK(POST)
 ```sh
-http://127.0.0.1:3002/api/v1/message/sendEmail
+http://127.0.0.1:3002/api/v1/email/sdk
 ```
 ``exmaple parameters
 ``
