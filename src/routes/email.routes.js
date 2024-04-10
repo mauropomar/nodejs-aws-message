@@ -7,5 +7,6 @@ import {
 const router = Router();
 
 router.post("/", sendEmail);
+router.post("/sdk", sendEmail);
 
 export default router;
