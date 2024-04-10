@@ -1,14 +1,14 @@
 export const extractCustomAttributes = (templateBody) => {
-    const regex = /{{([^{}]*)}}/g; // Expresión regular para encontrar contenido entre {{ y }}
+    const regex = /{{([^{}]*)}}/g; 
     const matches = templateBody.match(regex);
     if (matches) {
-      return matches.map(match => match.substring(2, match.length - 2)); // Elimina los corchetes
+      return matches.map(match => match.substring(2, match.length - 2)); 
     } else {
       return [];
     }
   }
   
-  export const getTemplateWithSubtitutions = (atributesBody, atributesTemplate, body) => {
+  export const getTemplateWithSubtitutionsLamba = (atributesBody, atributesTemplate, body) => {
     atributesBody.map((item) => {
       const nameAttr = `Attributes.${item.name}`;
       const attr = atributesTemplate.find(a => a === nameAttr);
@@ -19,8 +19,7 @@ export const extractCustomAttributes = (templateBody) => {
     return body;
   }
 
-  export const formatSubstitutions = (attributes) => {
-    // Convertir los atributos en un formato adecuado para Substitutions
+  export const getFormatSubstitutionsApiRest = (attributes) => {
     const substitutions = {};
     for (const key in attributes) {
         if (Array.isArray(attributes[key])) {

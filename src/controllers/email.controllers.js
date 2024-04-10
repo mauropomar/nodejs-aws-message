@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { formatSubstitutions } from "../classes/util.js";
+import { getFormatSubstitutionsApiRest } from "../classes/util.js";
 
 export const sendEmail = async (req, res) => {
     const pinpoint = new AWS.Pinpoint();
@@ -17,7 +17,7 @@ export const sendEmail = async (req, res) => {
             'MessageConfiguration': {
                 'EmailMessage': {
                     'FromAddress': fromAddress,
-                    'Substitutions': attributes ? formatSubstitutions(attributes) : undefined
+                    'Substitutions': attributes ? getFormatSubstitutionsApiRest(attributes) : undefined
                 }
             },
             'TemplateConfiguration': {
