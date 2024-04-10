@@ -36,7 +36,7 @@ export const sendMessage = async (req, res) => {
 
     try {
         const data = await pinClient.send(new SendMessagesCommand(params));
-        res.json({ message: 'Mensaje enviado satisfactoriamente', success: true, data });
+        res.json({ message: 'SMS enviado satisfactoriamente', success: true, data });
     } catch (err) {
         res.json({ message: err.message, success: false });
     }
