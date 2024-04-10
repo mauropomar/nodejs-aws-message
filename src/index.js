@@ -15,14 +15,12 @@ app.use(bodyparser.json());
 import { emailRoutes } from './routes/index.js';
 import { smsRoutes } from './routes/index.js';
 import { messageRoutes } from './routes/index.js';
-import { tokenRoutes } from './routes/index.js';
 
 // route middlewares
 
 app.use('/api/v1/email', validateToken, emailRoutes);
 app.use('/api/v1/sms', validateToken, smsRoutes);
 app.use('/api/v1/message', messageRoutes);
-app.use('/api/v1/token', tokenRoutes);
 
 AWS.config.update({
     region: 'us-east-1',
