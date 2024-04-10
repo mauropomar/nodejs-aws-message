@@ -5,7 +5,6 @@ export const sendMessage = async (req, res) => {
     const pinpoint = new AWS.Pinpoint();
     // Parámetros de entrada
     const { projectId, phoneNumber, smsTemplateId, attributes } = req.body;
-
     // Construir los parámetros para enviar el SMS
     const params = {
         ApplicationId: projectId,
