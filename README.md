@@ -23,9 +23,13 @@ http://127.0.0.1:3002/api/v1/message/sendMessage
 ```
 ``exmaple parameters
 ``
-    "originationNumber":"xxxxxxxx",
-    "destinationNumber":"xxxxxxxxx",
-    "attributes":"[{'name':'xxxx', value: 'xxxxx'}, {'name':'xxx', value: 'xxxx-xx-xx'}]"  
+    "projectId": "xxxxxxx", 
+	"phoneNumber": "+xxxxxx", 
+	"smsTemplateId": "xxxx_xxx_xxxx", 
+	"attributes": {
+		"Attributes.code": "xxxxxx",
+		"Attributes.date_time":"xxxx-xx-xx"
+	}
 ``
 
 ### API addresses SMS Rest(POST)
@@ -34,12 +38,12 @@ http://127.0.0.1:3002/api/v1/sms
 ```
 ``exmaple parameters
 ``
-   "projectId": "xxxxx", 
+   "projectId": "xxxxxxx", 
 	"phoneNumber": "+xxxxxx", 
-	"smsTemplateId": "xxx_xx_xxxxx", 
+	"smsTemplateId": "xxxx_xxx_xxxx", 
 	"attributes": {
-		"code": "xxxxx",
-		"date_time": "xxxx-xx-xx"
+		"Attributes.code": "xxxxxx",
+		"Attributes.date_time":"xxxx-xx-xx"
 	}
 ``
 
@@ -49,10 +53,18 @@ http://127.0.0.1:3002/api/v1/message/sendEmail
 ```
 ``exmaple parameters
 ``
-   "fromAddress":"xxxxxxx@gmail.com",
-    "toAddress":"xxxxx@gmail.com",
-    "attributes":"[{'name':'xxxx', value: 'xxxx'}, {'name':'xxxx', value: 'xxxxx@gmail.com'}, {'name':'xxxx', value: 'http://xxxx.xxx.com'}]"
+   "projectId": "xxxxxxxxxxxxxxxxxx", 
+	"fromAddress": "xxxx@gmail.com", 
+	"toAddress": ["xxxxx@gmail.com"], 
+	"emailTemplateId": "xxxx_xxxx_xxxxx", 
+	"attributes": {
+		"Attributes.name": "xxxxxxx",
+		"Attributes.email": "xxxxx@gmail",
+		"Attributes.body": "Esta es una prueba de email",
+		"Attributes.url_action": "https://www.google.com"
+	}
 ``
+
 
 ### API addresses Email Rest(POST)
 ```sh
@@ -60,15 +72,15 @@ http://127.0.0.1:3002/api/v1/email
 ```
 ``exmaple parameters
 ``
-   	"projectId": "xxxxxxxxxxxxx", 
+   "projectId": "xxxxxxxxxxxxxxxxxx", 
 	"fromAddress": "xxxx@gmail.com", 
-	"toAddress": ["xxxx@gmail.com"], 
-	"emailTemplateId": "xxx_xxxx_xxxx", 
+	"toAddress": ["xxxxx@gmail.com"], 
+	"emailTemplateId": "xxxx_xxxx_xxxxx", 
 	"attributes": {
-		"person_name": "xxxxxx",
-		"person_email": "xxxxxx@gmail",
-		"email_body": "Esta es una prueba de email",
-		"url_action": "https://www.xxxx.com"
+		"Attributes.name": "xxxxxxx",
+		"Attributes.email": "xxxxx@gmail",
+		"Attributes.body": "Esta es una prueba de email",
+		"Attributes.url_action": "https://www.google.com"
 	}
 ``
 
