@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
 
-const client = jwksClient({
-    jwksUri: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_3DPVOfMFF/.well-known/jwks.json' // URL de JWKS de Amazon Cognito
-});
-
 const verifyToken = (token, callback) => {
+    const client = jwksClient({
+        jwksUri:process.env.JWKS_URI // URL de JWKS de Amazon Cognito
+    });
+    
     const decodedToken = jwt.decode(token, { complete: true });
     if (!decodedToken || !decodedToken.header || !decodedToken.header.kid) {
         return callback(new Error('Invalid token'));

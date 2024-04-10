@@ -23,7 +23,7 @@ app.use('/api/v1/sms', validateToken, smsRoutes);
 app.use('/api/v1/message', messageRoutes);
 
 AWS.config.update({
-    region: 'us-east-1',
+    region: process.env.REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessId: process.env.AWS_SECRET_ACCESS_KEY
 });

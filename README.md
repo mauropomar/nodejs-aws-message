@@ -72,14 +72,11 @@ http://127.0.0.1:3002/api/v1/email
 	}
 ``
 
-### API addresses method that returns the authentication token (POST)
-```sh
-http://127.0.0.1:3002/api/v1/token
-```
 
 ### Enviroment Variables
 
 PORT=XXXX
+REGION=xxxx
 PINPOINT_PROJECT_ID=xxxxx
 AWS_ACCESS_KEY_ID=xxxxxxx
 AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxx

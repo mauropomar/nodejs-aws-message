@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { formatSubstitutions } from "../classes/util.js";
+import { getFormatSubstitutionsApiRest } from "../classes/util.js";
 
 export const sendMessage = async (req, res) => {
     const pinpoint = new AWS.Pinpoint();
@@ -18,7 +18,7 @@ export const sendMessage = async (req, res) => {
             'MessageConfiguration': {
                 'SMSMessage': {
                     'MessageType': 'TRANSACTIONAL',
-                    'Substitutions': attributes ? formatSubstitutions(attributes) : undefined
+                    'Substitutions': attributes ? getFormatSubstitutionsApiRest(attributes) : undefined
                 }
             },
             'TemplateConfiguration': {
